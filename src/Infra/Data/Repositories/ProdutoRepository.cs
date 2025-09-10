@@ -1,4 +1,5 @@
 ﻿using Business.Models.Produtos;
+using Infra.Data.Context;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -9,6 +10,8 @@ namespace Infra.Data.Repository
 {
     public class ProdutoRepository : Repository<Produto>, IProdutoRepository
     {
+        public ProdutoRepository(ProdutosDbContext db) : base(db) { }
+
         public async Task<Produto> ObterProdutoFornecedor(Guid id)
         {
             return await Db.Produtos.AsNoTracking()

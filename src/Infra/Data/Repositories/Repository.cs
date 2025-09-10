@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Infra.Data.Repository
@@ -16,16 +15,13 @@ namespace Infra.Data.Repository
         protected readonly ProdutosDbContext Db;
         protected readonly DbSet<TEntity> DbSet;
 
-        public Repository()
+        public Repository(ProdutosDbContext db)
         {
-            Db = new ProdutosDbContext();
+            Db = db;
             DbSet = Db.Set<TEntity>();
         }
 
-        public virtual async Task<List<TEntity>> ObterTodos()
-        {
-            return await DbSet.ToListAsync();
-        }
+        public virtual async Task<List<TEntity>> ObterTodos() => await DbSet.ToListAsync();
 
         public virtual async Task<TEntity> ObterPorId(Guid id)
         {
