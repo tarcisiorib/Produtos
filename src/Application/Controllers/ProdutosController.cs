@@ -9,7 +9,7 @@ using AutoMapper;
 
 namespace Application.Controllers
 {
-    public class ProdutosController : Controller
+    public class ProdutosController : BaseController
     {
         private readonly IProdutoRepository _produtoRepository;
         private readonly IProdutoService _produtoService;
@@ -30,18 +30,6 @@ namespace Application.Controllers
             return View(_mapper.Map<IEnumerable<ProdutoViewModel>>(await _produtoRepository.ObterTodos()));
         }
 
-        [Route("dados-do-produto/{id:guid}")]
-        [HttpGet]
-        public async Task<ActionResult> Details(Guid id)
-        {
-            var produtoViewModel = await ObterProduto(id);
-            if (produtoViewModel == null)
-            {
-                return HttpNotFound();
-            }
-            return View(produtoViewModel);
-        }
-
         [Route("novo-produto")]
         [HttpGet]
         public ActionResult Create()
@@ -60,6 +48,18 @@ namespace Application.Controllers
                 return RedirectToAction("Index");
             }
 
+            return View(produtoViewModel);
+        }
+
+        [Route("dados-do-produto/{id:guid}")]
+        [HttpGet]
+        public async Task<ActionResult> Details(Guid id)
+        {
+            var produtoViewModel = await ObterProduto(id);
+            if (produtoViewModel == null)
+            {
+                return HttpNotFound();
+            }
             return View(produtoViewModel);
         }
 

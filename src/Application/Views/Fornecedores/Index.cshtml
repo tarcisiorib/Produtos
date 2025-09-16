@@ -1,0 +1,51 @@
+﻿@using Application.Extensions;
+@model IEnumerable<Application.ViewModels.FornecedorViewModel>
+
+@{
+    ViewBag.Title = "Lista de Fornecedores";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<p>
+    <a class="btn btn-primary btn-sm" href=@Url.Action("Create", "Fornecedores")>Novo Fornecedor</a>
+</p>
+
+<table class="table table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Documento)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ativo)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nome)
+                    </td>
+                    <td>
+                        @this.FormatarDocumento(item.TipoFornecedor, item.Documento)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Ativo)
+                    </td>
+                    <td class="text-end">
+                        <a class="btn btn-warning btn-sm" href="@Url.Action("Details", "Fornecedores", new { id = @item.Id } )"><i class="bi bi-search"></i></a>
+                        <a class="btn btn-info btn-sm" href="@Url.Action("Edit", "Fornecedores", new { id = @item.Id } )"><i class="bi bi-pencil"></i></a>
+                        <a class="btn btn-danger btn-sm" href="@Url.Action("Delete", "Fornecedores", new { id = @item.Id } )"><i class="bi bi-trash"></i></a>
+                    </td>
+                </tr>
+            }
+    </tbody>
+</table>
+
