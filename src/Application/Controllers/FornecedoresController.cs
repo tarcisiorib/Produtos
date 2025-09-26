@@ -1,5 +1,6 @@
 ﻿using Application.ViewModels;
 using AutoMapper;
+using Business.Core.Notificacoes;
 using Business.Models.Fornecedores;
 using Business.Models.Fornecedores.Services;
 using System;
@@ -17,7 +18,8 @@ namespace Application.Controllers
 
         public FornecedoresController(IFornecedorRepository fornecedorRepository,
                                       IFornecedorService fornecedorService,
-                                      IMapper mapper)
+                                      IMapper mapper,
+                                      INotifyer notifyer) : base(notifyer)
         {
             _fornecedorRepository = fornecedorRepository;
             _fornecedorService = fornecedorService;
@@ -40,12 +42,15 @@ namespace Application.Controllers
         [HttpPost]
         public async Task<ActionResult> Create(FornecedorViewModel fornecedorViewModel)
         {
-            if (!ModelState.IsValid) return View(fornecedorViewModel);
+            if (!ModelState.IsValid)
+                return View(fornecedorViewModel);
 
             var fornecedor = _mapper.Map<Fornecedor>(fornecedorViewModel);
+
             await _fornecedorService.Adicionar(fornecedor);
 
-            // TODO: Notificar problemas
+            if (!OperacaoValida())
+                return View(fornecedorViewModel);
 
             return RedirectToAction("Index");
         }
@@ -54,7 +59,10 @@ namespace Application.Controllers
         public async Task<ActionResult> Details(Guid id)
         {
             var fornecedorViewModel = await ObterFornecedorEndereco(id);
-            if (fornecedorViewModel == null) return HttpNotFound();
+
+            if (fornecedorViewModel == null)
+                return HttpNotFound();
+
             return View(fornecedorViewModel);
         }
 
@@ -62,7 +70,10 @@ namespace Application.Controllers
         public async Task<ActionResult> Edit(Guid id)
         {
             var fornecedorViewModel = await ObterFornecedorEndereco(id);
-            if (fornecedorViewModel == null) return HttpNotFound();
+
+            if (fornecedorViewModel == null)
+                return HttpNotFound();
+
             return View(fornecedorViewModel);
         }
 
@@ -70,13 +81,18 @@ namespace Application.Controllers
         [HttpPost]
         public async Task<ActionResult> Edit(Guid id, FornecedorViewModel fornecedorViewModel)
         {
-            if (id != fornecedorViewModel.Id) return HttpNotFound();
-            if (!ModelState.IsValid) return View(fornecedorViewModel);
+            if (id != fornecedorViewModel.Id)
+                return HttpNotFound();
+
+            if (!ModelState.IsValid)
+                return View(fornecedorViewModel);
 
             var fornecedor = _mapper.Map<Fornecedor>(fornecedorViewModel);
+
             await _fornecedorService.Atualizar(fornecedor);
 
-            // TODO: Notificar problemas
+            if (!OperacaoValida())
+                return View(fornecedorViewModel);
 
             return RedirectToAction("Index");
         }
@@ -85,7 +101,10 @@ namespace Application.Controllers
         public async Task<ActionResult> Delete(Guid id)
         {
             var fornecedorViewModel = await ObterFornecedorEndereco(id);
-            if (fornecedorViewModel == null) return HttpNotFound();
+
+            if (fornecedorViewModel == null)
+                return HttpNotFound();
+
             return View(fornecedorViewModel);
         }
 
@@ -94,10 +113,14 @@ namespace Application.Controllers
         public async Task<ActionResult> DeleteConfirmed(Guid id)
         {
             var fornecedorViewModel = await ObterFornecedorEndereco(id);
-            if (fornecedorViewModel == null) return HttpNotFound();
+
+            if (fornecedorViewModel == null)
+                return HttpNotFound();
+
             await _fornecedorService.Remover(id);
 
-            // TODO: Notificar problemas
+            if (!OperacaoValida())
+                return View(fornecedorViewModel);
 
             return RedirectToAction("Index");
         }
@@ -106,7 +129,9 @@ namespace Application.Controllers
         public async Task<ActionResult> ObterEndereco(Guid id)
         {
             var fornecedorViewModel = await ObterFornecedorEndereco(id);
-            if (fornecedorViewModel == null) return HttpNotFound();
+
+            if (fornecedorViewModel == null)
+                return HttpNotFound();
 
             return PartialView("_DetalhesEndereco", fornecedorViewModel);
         }
@@ -115,7 +140,9 @@ namespace Application.Controllers
         public async Task<ActionResult> AtualizarEndereco(Guid id)
         {
             var fornecedoreViewModel = await ObterFornecedorEndereco(id);
-            if (fornecedoreViewModel == null) return HttpNotFound();
+
+            if (fornecedoreViewModel == null)
+                return HttpNotFound();
 
             return PartialView("_AtualizarEndereco", new FornecedorViewModel { Endereco = fornecedoreViewModel.Endereco });
         }
@@ -127,11 +154,13 @@ namespace Application.Controllers
             ModelState.Remove("Nome");
             ModelState.Remove("Documento");
 
-            if (!ModelState.IsValid) return PartialView("_AtualizarEndereco", fornecedorViewModel);
+            if (!ModelState.IsValid)
+                return PartialView("_AtualizarEndereco", fornecedorViewModel);
 
             await _fornecedorService.AtualizarEndereco(_mapper.Map<Endereco>(fornecedorViewModel.Endereco));
 
-            // TODO: Notificar problemas
+            if (!OperacaoValida())
+                return View(fornecedorViewModel);
 
             var url = Url.Action("ObterEndereco", "Fornecedores", new { id = fornecedorViewModel.Endereco.FornecedorId });
             return Json(new { success = true, url });

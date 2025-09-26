@@ -27,7 +27,7 @@ namespace Business.Models.Produtos.Services
         {
             if (!ExecutarValidacao(new ProdutoValidator(), produto)) return;
 
-            await _produtoRepository.Adicionar(produto);
+            await _produtoRepository.Atualizar(produto);
         }
 
         public async Task Remover(Guid id) => await _produtoRepository.Remover(id);

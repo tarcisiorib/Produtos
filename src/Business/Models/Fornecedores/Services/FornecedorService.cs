@@ -22,6 +22,9 @@ namespace Business.Models.Fornecedores.Services
 
         public async Task Adicionar(Fornecedor fornecedor)
         {
+            fornecedor.Endereco.Id = fornecedor.Id;
+            fornecedor.Endereco.Fornecedor = fornecedor;
+
             if (!ExecutarValidacao(new FornecedorValidator(), fornecedor)
                 || !ExecutarValidacao(new EnderecoValidator(), fornecedor.Endereco)) return;
 

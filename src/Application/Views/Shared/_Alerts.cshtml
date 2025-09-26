@@ -1,0 +1,7 @@
+﻿@if (ViewData.ModelState[""] != null && ViewData.ModelState[""].Errors.Any())
+{
+    <div class="alert alert-danger alert-dismissible" role="alert">
+        <div>@Html.ValidationSummary()</div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}

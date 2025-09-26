@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Application.Extensions;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -25,14 +26,16 @@ namespace Application.ViewModels
         [StringLength(100, ErrorMessage = "{0} deve ter entre {2} e {1} caracteres", MinimumLength = 2)]
         public string Descricao { get; set; }
 
-        //[DisplayName("Imagem do Produto")]
-        //public HttpPostedFileBase ImagemUpload { get; set; }
+        [DisplayName("Imagem do Produto")]
+        public HttpPostedFileBase ImagemUpload { get; set; }
 
         public string Imagem { get; set; }
 
+        [Moeda]
         [Required(ErrorMessage = "{0} obrigatório")]
         public decimal Valor { get; set; }
 
+        [DisplayName("Data cadastro")]
         [ScaffoldColumn(false)]
         public DateTime DataCadastro { get; set; }
 
@@ -43,8 +46,8 @@ namespace Application.ViewModels
         [DisplayName("Fornecedor")]
         public Guid FornecedorId { get; set; }
 
-        //public FornecedorViewModel Fornecedor { get; set; }
+        public FornecedorViewModel Fornecedor { get; set; }
 
-        //public IEnumerable<FornecedorViewModel> Fornecedores { get; set; }
+        public IEnumerable<FornecedorViewModel> Fornecedores { get; set; }
     }
 }

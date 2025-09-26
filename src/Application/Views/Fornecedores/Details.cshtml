@@ -2,13 +2,13 @@
 @model Application.ViewModels.FornecedorViewModel
 
 @{
-    ViewBag.Title = "Detalhes";
+    ViewBag.Title = $"Fornecedor {Model.Nome}";
 }
 
-<h1>@ViewBag.Title</h1>
+<h2>@ViewBag.Title</h2>
 
 <div>
-    <h4>Informação somente leitura</h4>
+    <h5>Informação somente leitura</h5>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Nome)</dt>
@@ -21,7 +21,7 @@
 </div>
 <div>
     <a href="@Url.Action("Edit", "Fornecedores", new { id = Model.Id })" class="btn btn-primary">Editar</a>
-    <a href="@Url.Action("Index", "Fornecedores", new { id = Model.Id })" class="btn btn-dark">Voltar</a>
+    <a href="javascript:window.history.back();" class="btn btn-dark">Voltar</a>
 </div>
 
 @Html.Partial("_DetalhesEndereco")

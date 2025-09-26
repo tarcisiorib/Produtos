@@ -24,12 +24,5 @@ namespace Infra.Data.Repository
                 .Include(f => f.Produtos)
                 .FirstOrDefaultAsync(f => f.Id == id);
         }
-
-        public override async Task Remover(Guid id)
-        {
-            var fornecedor = await ObterPorId(id);
-            fornecedor.Ativo = false;
-            await Atualizar(fornecedor);
-        }
     }
 }
