@@ -1,4 +1,5 @@
-﻿using Application.ViewModels;
+﻿using Application.Extensions;
+using Application.ViewModels;
 using AutoMapper;
 using Business.Core.Notificacoes;
 using Business.Models.Fornecedores;
@@ -13,6 +14,7 @@ using System.Web.Mvc;
 
 namespace Application.Controllers
 {
+    [Authorize]
     public class ProdutosController : BaseController
     {
         private readonly IProdutoRepository _produtoRepository;
@@ -32,12 +34,14 @@ namespace Application.Controllers
             _mapper = mapper;
         }
 
+        [AllowAnonymous]
         [Route("lista-de-produtos")]
         public async Task<ActionResult> Index()
         {
             return View(_mapper.Map<IEnumerable<ProdutoViewModel>>(await _produtoRepository.ObterProdutosFornecedores()));
         }
 
+        [ClaimsAuthorize("Produto", "Adicionar")]
         [Route("novo-produto")]
         public async Task<ActionResult> Create()
         {
@@ -45,6 +49,7 @@ namespace Application.Controllers
             return View(produtoViewModel);
         }
 
+        [ClaimsAuthorize("Produto", "Adicionar")]
         [Route("novo-produto")]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -69,6 +74,7 @@ namespace Application.Controllers
             return RedirectToAction("Index");
         }
 
+        [AllowAnonymous]
         [Route("dados-do-produto/{id:guid}")]
         public async Task<ActionResult> Details(Guid id)
         {
@@ -80,6 +86,7 @@ namespace Application.Controllers
             return View(produtoViewModel);
         }
 
+        [ClaimsAuthorize("Produto", "Editar")]
         [Route("editar-produto/{id:guid}")]
         public async Task<ActionResult> Edit(Guid id)
         {
@@ -91,6 +98,7 @@ namespace Application.Controllers
             return View(produtoViewModel);
         }
 
+        [ClaimsAuthorize("Produto", "Editar")]
         [Route("editar-produto/{id:guid}")]
         [HttpPost]
         [ValidateAntiForgeryToken]

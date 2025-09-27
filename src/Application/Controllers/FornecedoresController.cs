@@ -1,4 +1,5 @@
-﻿using Application.ViewModels;
+﻿using Application.Extensions;
+using Application.ViewModels;
 using AutoMapper;
 using Business.Core.Notificacoes;
 using Business.Models.Fornecedores;
@@ -10,6 +11,7 @@ using System.Web.Mvc;
 
 namespace Application.Controllers
 {
+    [Authorize]
     public class FornecedoresController : BaseController
     {
         private readonly IFornecedorRepository _fornecedorRepository;
@@ -26,20 +28,24 @@ namespace Application.Controllers
             _mapper = mapper;
         }
 
+        [AllowAnonymous]
         [Route("lista-de-fornecedores")]
         public async Task<ActionResult> Index()
         {
             return View(_mapper.Map<IEnumerable<FornecedorViewModel>>(await _fornecedorRepository.ObterTodos()));
         }
 
+        [ClaimsAuthorize("Fornecedor","Adicionar")]
         [Route("novo-fornecedor")]
         public ActionResult Create()
         {
             return View();
         }
 
+        [ClaimsAuthorize("Fornecedor", "Adicionar")]
         [Route("novo-fornecedor")]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(FornecedorViewModel fornecedorViewModel)
         {
             if (!ModelState.IsValid)
@@ -55,6 +61,7 @@ namespace Application.Controllers
             return RedirectToAction("Index");
         }
 
+        [AllowAnonymous]
         [Route("dados-do-fornecedor/{id:guid}")]
         public async Task<ActionResult> Details(Guid id)
         {
@@ -66,6 +73,7 @@ namespace Application.Controllers
             return View(fornecedorViewModel);
         }
 
+        [ClaimsAuthorize("Fornecedor", "Editar")]
         [Route("editar-fonecedor/{id:guid}")]
         public async Task<ActionResult> Edit(Guid id)
         {
@@ -77,6 +85,7 @@ namespace Application.Controllers
             return View(fornecedorViewModel);
         }
 
+        [ClaimsAuthorize("Fornecedor", "Editar")]
         [Route("editar-fonecedor/{id:guid}")]
         [HttpPost]
         public async Task<ActionResult> Edit(Guid id, FornecedorViewModel fornecedorViewModel)
@@ -97,6 +106,7 @@ namespace Application.Controllers
             return RedirectToAction("Index");
         }
 
+        [ClaimsAuthorize("Fornecedor", "Excluir")]
         [Route("excluir-fonecedor/{id:guid}")]
         public async Task<ActionResult> Delete(Guid id)
         {
@@ -108,6 +118,7 @@ namespace Application.Controllers
             return View(fornecedorViewModel);
         }
 
+        [ClaimsAuthorize("Fornecedor", "Excluir")]
         [Route("excluir-fonecedor/{id:guid}")]
         [HttpPost, ActionName("Delete")]
         public async Task<ActionResult> DeleteConfirmed(Guid id)

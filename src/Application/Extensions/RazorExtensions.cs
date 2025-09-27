@@ -23,5 +23,15 @@ namespace Application.Extensions
 
             return urlTarget == urlEmUso || urlTarget2 == urlEmUso;
         }
+
+        public static bool PermitirExibicao(this WebViewPage page, string claimName, string claimValue)
+        {
+            return CustomAuthorization.ValidarClaimsUsuario(claimName, claimValue);
+        }
+
+        public static MvcHtmlString PermitirExibicao(this MvcHtmlString value, string claimName, string claimValue)
+        {
+            return CustomAuthorization.ValidarClaimsUsuario(claimName, claimValue) ? value : MvcHtmlString.Empty;
+        }
     }
 }
