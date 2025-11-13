@@ -11,7 +11,7 @@ namespace Business.Models.Produtos.Services
         private readonly IProdutoRepository _produtoRepository;
 
         public ProdutoService(IProdutoRepository produtoRepository,
-                              INotifyer notificator) : base(notificator)
+                              INotifier notificator) : base(notificator)
         {
             _produtoRepository = produtoRepository;
         }

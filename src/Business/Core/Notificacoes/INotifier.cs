@@ -2,7 +2,7 @@
 
 namespace Business.Core.Notificacoes
 {
-    public interface INotifyer
+    public interface INotifier
     {
         bool HasNotification();
         List<Notification> GetNotifications();

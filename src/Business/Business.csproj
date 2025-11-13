@@ -39,9 +39,9 @@
   <ItemGroup>
     <Compile Include="Core\Data\IRepository.cs" />
     <Compile Include="Core\Models\Entity.cs" />
-    <Compile Include="Core\Notificacoes\INotifyer.cs" />
+    <Compile Include="Core\Notificacoes\INotifier.cs" />
     <Compile Include="Core\Notificacoes\Notification.cs" />
-    <Compile Include="Core\Notificacoes\Notifyer.cs" />
+    <Compile Include="Core\Notificacoes\Notifier.cs" />
     <Compile Include="Core\Services\BaseService.cs" />
     <Compile Include="Core\Validations\Documentos\ValidacoesDocumentos.cs" />
     <Compile Include="Models\Fornecedores\Endereco.cs" />

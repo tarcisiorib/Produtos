@@ -14,7 +14,7 @@ namespace Business.Models.Fornecedores.Services
 
         public FornecedorService(IFornecedorRepository fornecedorRepository,
                                  IEnderecoRepository enderecoRepository,
-                                 INotifyer notificator) : base(notificator)
+                                 INotifier notificator) : base(notificator)
         {
             _fornecedorRepository = fornecedorRepository;
             _enderecoRepository = enderecoRepository;

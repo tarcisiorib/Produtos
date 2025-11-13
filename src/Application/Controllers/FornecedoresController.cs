@@ -21,7 +21,7 @@ namespace Application.Controllers
         public FornecedoresController(IFornecedorRepository fornecedorRepository,
                                       IFornecedorService fornecedorService,
                                       IMapper mapper,
-                                      INotifyer notifyer) : base(notifyer)
+                                      INotifier notifyer) : base(notifyer)
         {
             _fornecedorRepository = fornecedorRepository;
             _fornecedorService = fornecedorService;

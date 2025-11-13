@@ -26,7 +26,7 @@ namespace Application.Controllers
                                   IProdutoService produtoService,
                                   IFornecedorRepository fornecedorRepository,
                                   IMapper mapper,
-                                  INotifyer notifyer) : base(notifyer)
+                                  INotifier notifyer) : base(notifyer)
         {
             _produtoRepository = produtoRepository;
             _produtoService = produtoService;

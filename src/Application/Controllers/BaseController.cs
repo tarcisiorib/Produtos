@@ -5,9 +5,9 @@ namespace Application.Controllers
 {
     public class BaseController : Controller
     {
-        private readonly INotifyer _notifyer;
+        private readonly INotifier _notifyer;
 
-        public BaseController(INotifyer notifyer)
+        public BaseController(INotifier notifyer)
         {
             _notifyer = notifyer;
         }

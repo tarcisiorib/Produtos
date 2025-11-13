@@ -37,7 +37,7 @@ namespace Application.App_Start
             container.Register<IFornecedorRepository, FornecedorRepository>(Lifestyle.Scoped);
             container.Register<IFornecedorService, FornecedorService>(Lifestyle.Scoped);
             container.Register<IEnderecoRepository, EnderecoRepository>(Lifestyle.Scoped);
-            container.Register<INotifyer, Notifyer>(Lifestyle.Scoped);
+            container.Register<INotifier, Notifier>(Lifestyle.Scoped);
 
             container.RegisterSingleton(() => AutoMapperConfig.GetMapperConfiguration().CreateMapper(container.GetInstance));
         }

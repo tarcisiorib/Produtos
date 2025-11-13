@@ -3,11 +3,11 @@ using System.Linq;
 
 namespace Business.Core.Notificacoes
 {
-    public class Notifyer : INotifyer
+    public class Notifier : INotifier
     {
         private List<Notification> _notifications;
 
-        public Notifyer()
+        public Notifier()
         {
             _notifications = new List<Notification>();
         }

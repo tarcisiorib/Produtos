@@ -7,9 +7,9 @@ namespace Business.Core.Services
 {
     public abstract class BaseService
     {
-        private readonly INotifyer _notificator;
+        private readonly INotifier _notificator;
 
-        protected BaseService(INotifyer notificator)
+        protected BaseService(INotifier notificator)
         {
             _notificator = notificator;
         }
